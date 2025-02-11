@@ -27,18 +27,23 @@ test("franchise page", async ({ page }) => {
   await expect(page.getByRole("main")).toContainText(
     "So you want a piece of the pie?"
   );
+  await expect(page.locator('div').filter({ hasText: /^If you are already a franchisee, pleaseloginusing your franchise account$/ }).nth(2)).toBeVisible();
 });
 
 test("history page", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole('link', { name: 'History' }).click();
-  await expect(page.getByRole('heading')).toContainText('Mama Rucci, my my');
+  await page.getByRole("link", { name: "History" }).click();
+  await expect(page.getByRole("heading")).toContainText("Mama Rucci, my my");
 });
 
 test("docs page", async ({ page }) => {
   await page.goto("/docs");
-  await expect(page.getByText('JWT Pizza API')).toBeVisible();
-  await page.getByRole('heading', { name: '[PUT] /api/auth', exact: true }).click();
-  await page.getByRole('link', { name: 'home' }).click();
-  await expect(page.getByText('The web\'s best pizza', { exact: true })).toBeVisible();
+  await expect(page.getByText("JWT Pizza API")).toBeVisible();
+  await page
+    .getByRole("heading", { name: "[PUT] /api/auth", exact: true })
+    .click();
+  await page.getByRole("link", { name: "home" }).click();
+  await expect(
+    page.getByText("The web's best pizza", { exact: true })
+  ).toBeVisible();
 });
