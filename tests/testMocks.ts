@@ -53,12 +53,7 @@ export const mockFranchiseRoute = async (page: Page) => {
         {
           id: 143,
           name: "Simple Franchise",
-          stores: [
-            {
-              id: 30,
-              name: "Lehi",
-            },
-          ],
+          stores: [],
         },
         {
           id: 1,
@@ -70,7 +65,12 @@ export const mockFranchiseRoute = async (page: Page) => {
               email: "f@jwt.com",
             },
           ],
-          stores: [],
+          stores: [
+            {
+              id: 4,
+              name: "Lehi",
+            },
+          ],
         },
         {
           id: 4,
