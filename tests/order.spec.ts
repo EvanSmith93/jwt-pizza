@@ -1,9 +1,10 @@
 import { expect, test } from "playwright-test-coverage";
 import { Route } from "@playwright/test";
-import { mockAuthRoute } from "./testMocks";
+import { mockAuthRoute, mockFranchiseRoute } from "./testMocks";
 
 test("order and verify pizzas", async ({ page }) => {
   await mockAuthRoute(page);
+  await mockFranchiseRoute(page);
   await page.route("*/**/api/order/menu", async (route: Route) => {
     if (route.request().method() === "GET") {
       const res = [
@@ -48,44 +49,6 @@ test("order and verify pizzas", async ({ page }) => {
       await route.continue();
     }
   });
-  await page.route("*/**/api/franchise", async (route: Route) => {
-    if (route.request().method() === "GET") {
-      const res = [
-        {
-          id: 143,
-          name: "Simple Franchise",
-          stores: [
-            {
-              id: 30,
-              name: "Lehi",
-            },
-          ],
-        },
-        {
-          id: 430,
-          name: "hasNoStores",
-          stores: [],
-        },
-        {
-          id: 1,
-          name: "Pizza Pocket",
-          stores: [
-            {
-              id: 1,
-              name: "SLC",
-            },
-            {
-              id: 3,
-              name: "Provo",
-            },
-          ],
-        },
-      ];
-      await route.fulfill({ json: res });
-    } else {
-      await route.continue();
-    }
-  });
   await page.route("*/**/api/order", async (route: Route) => {
     if (route.request().method() === "POST") {
       const req = {
@@ -112,7 +75,7 @@ test("order and verify pizzas", async ({ page }) => {
           },
         ],
         storeId: "3",
-        franchiseId: 1,
+        franchiseId: 4,
       };
       const res = {
         order: {
