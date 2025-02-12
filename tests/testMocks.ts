@@ -1,5 +1,5 @@
 import { Page, Route } from "@playwright/test";
-import { expect } from "playwright-test-coverage";
+import { expect, test } from "playwright-test-coverage";
 
 export const mockAuthRoute = async (page: Page) => {
   await page.route("*/**/api/auth", async (route: Route) => {
@@ -41,7 +41,7 @@ export const mockAuthRoute = async (page: Page) => {
       const res = { message: "logout successful" };
       await route.fulfill({ json: res });
     } else {
-      await route.continue();
+      test.fail();
     }
   });
 };
@@ -114,7 +114,7 @@ export const mockFranchiseRoute = async (page: Page) => {
       expect(route.request().postDataJSON()).toMatchObject(req);
       await route.fulfill({ json: res });
     } else {
-      await route.continue();
+      test.fail();
     }
   });
 };

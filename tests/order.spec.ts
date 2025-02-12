@@ -46,7 +46,7 @@ test("order and verify pizzas", async ({ page }) => {
       ];
       await route.fulfill({ json: res });
     } else {
-      await route.continue();
+      test.fail();
     }
   });
   await page.route("*/**/api/order", async (route: Route) => {
@@ -110,7 +110,7 @@ test("order and verify pizzas", async ({ page }) => {
       expect(route.request().postDataJSON()).toMatchObject(req);
       await route.fulfill({ json: res });
     } else {
-      await route.continue();
+      test.fail();
     }
   });
   await page.route("*/**/api/order/verify", async (route: Route) => {
@@ -162,7 +162,7 @@ test("order and verify pizzas", async ({ page }) => {
       expect(route.request().postDataJSON()).toMatchObject(req);
       await route.fulfill({ json: res });
     } else {
-      await route.continue();
+      test.fail();
     }
   });
 
@@ -197,5 +197,5 @@ test("order and verify pizzas", async ({ page }) => {
   await expect(page.locator("h3")).toContainText("JWT Pizza - valid");
   await page.waitForTimeout(500);
   await page.getByRole("button", { name: "Close" }).click();
-  await expect(page.getByText('Here is your JWT Pizza!')).toBeVisible();
+  await expect(page.getByText("Here is your JWT Pizza!")).toBeVisible();
 });
