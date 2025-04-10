@@ -53,16 +53,13 @@ console.log(greeter.greet());
 
 Initially dependency injection can make your code feel more complex, but it gives you a lot of advantages.
 
-1. It improves code reusability.
-
+##### 1. It improves code reusability.
 Since code doesn't define its own dependencies from within, you can easily pass in a different dependency that follows the same interface as the existing dependency. There is no need to duplicate or even change the code you stick the dependency into.
 
-2. It makes code more testable.
-
+##### 2. It makes code more testable.
 When testing code, you can easily choose to pass in mocked out dependencies into your code. That lets you test a class without testing its dependencies. It also means you can tell if methods on the dependency were called using mocks from a testing framework like jest.
 
-3. It improved code maintainability.
-
+##### 3. It improved code maintainability.
 Because classes/methods don't know about their dependencies, it's easier to swap out dependencies without changing existing code. This helps keep changes isolated which improves maintainability.
 
 ## Inversion of control (IoC)
@@ -130,7 +127,7 @@ These are things that a DI framework helps manage automatically.
 
 ## DI JavaScript frameworks
 
-There are many frameworks that help manage DI. Some larger frameworks such as NestJS and Angular have support for DI. Other frameworks are built just for handling DI.
+There are many frameworks in JavaScript/TypeScript that help manage DI. Some larger frameworks such as NestJS and Angular have support for DI. Other frameworks are built just for handling DI. There are also a variety of frameworks in most other languages. DI is not language specific. However, for this report I'm focusing on TypeScript code.
 
 ### InversifyJS
 
@@ -191,4 +188,62 @@ This framework uses decorators. I had forgotten that TypeScript had decorator sy
 
 ### Awilix
 
-TODO
+[Awilix](https://github.com/jeffijoe/awilix) is another DI framework for TypeScript. Like Inversify, it is also designed specifically for DI. However, it has slightly different syntax.
+
+```typescript
+interface GetString {
+  getString: () => string;
+}
+
+class D implements GetString {
+  getString() {
+    return "Hello World";
+  }
+}
+
+class C implements GetString {
+  d: GetString;
+  constructor({ d }: { d: GetString }) {
+    this.d = d;
+  }
+
+  getString() {
+    return this.d.getString().toLowerCase();
+  }
+}
+
+class B implements GetString {
+  c: GetString;
+  constructor({ c }: { c: GetString }) {
+    this.c = c;
+  }
+
+  getString() {
+    return `**${this.c.getString()}**`;
+  }
+}
+
+class A implements GetString {
+  b: GetString;
+  constructor({ b }: { b: GetString }) {
+    this.b = b;
+  }
+
+  getString() {
+    return this.b.getString().split("").reverse().join("");
+  }
+}
+
+const container = createContainer();
+
+container.register({
+  d: asClass(D),
+  c: asClass(C),
+  b: asClass(B),
+  a: asClass(A),
+});
+
+console.log(container.resolve("a").getString());
+```
+
+I think I like this framework more than Inversify because you don't need decorators on the classes and properties. I feel like this makes the code a lot cleaner, but it could lead to slightly more confusion about how the framework works.
