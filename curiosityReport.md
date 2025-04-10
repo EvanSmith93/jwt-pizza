@@ -119,7 +119,7 @@ const a = new A(b);
 console.log(a.getString());
 ```
 
-Take this example of dependency injection that happens across 4 different classes. Each dependency must be created and passed into the next one. As applications get more complex, these dependencies could nest even further, or one class may need many dependencies. It becomes impractical to create all the dependencies from the outside and manage passing them all into each other.
+Take this example of dependency injection that happens across 4 different classes. Each dependency must be created and passed into the next one. As applications get more complex, these dependencies could nest even further, or one class may need many dependencies. It becomes impractical to create all the dependencies from the outside and manage passing them all into each other every time you want to make a new instance of a method.
 
 In addition, say one of these dependencies was something like a database connection. In that case we would want it to be a singleton, so that everything that used it would get the same database connection instance. We would have to manage not creating duplicate instances of the dependency, even as we pass it to many things that depend on it.
 
@@ -182,7 +182,7 @@ container.bind(A).toSelf();
 console.log(container.get(A).getString());
 ```
 
-In this simple example, it doesn't look simpler. However, if you have many interconnected dependencies it's nice to not have to manage passing each one to each other.
+In this simple example, it doesn't look any simpler than our previous code. However, if you have many interconnected dependencies it's nice to not have to manage passing each one to each other.
 
 This framework uses decorators. I had forgotten that TypeScript had decorator syntax. It also uses property decorators, which is part of an experimental feature within TypeScript. This feature you get metadata about classes, methods, and properties at runtime. This lets the framework know what dependency should be injected in what place.
 
@@ -247,3 +247,11 @@ console.log(container.resolve("a").getString());
 ```
 
 I think I like this framework more than Inversify because you don't need decorators on the classes and properties. I feel like this makes the code a lot cleaner, but it could lead to slightly more confusion about how the framework works.
+
+## Drawbacks of DI
+
+Dependency injection is a great principle, but it does have some drawbacks, especially when used with a framework.
+
+* Even though it helps with code quality, DI can be confusing to read at first, especially when using a framework.
+* DI frameworks can often be slow, and they may add overhead which can be especially costly for small projects.
+* Some frameworks can make debugging difficult during runtime, as some will stick a proxy in front of your dependency. So it'll be harder to step through into code within a dependency as you usually would.
