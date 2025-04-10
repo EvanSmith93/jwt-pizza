@@ -4,6 +4,7 @@ Dependency injection is a principle where a class/method is passed its dependenc
 
 ```typescript
 // Without dependency injection
+
 class Person {
   getName() {
     return "Evan";
@@ -24,6 +25,7 @@ console.log(greeter.greet());
 
 ```typescript
 // With dependency injection
+
 class Person {
   getName() {
     return "Evan";
@@ -49,7 +51,19 @@ console.log(greeter.greet());
 
 ## Why DI?
 
-TODO
+Initially dependency injection can make your code feel more complex, but it gives you a lot of advantages.
+
+1. It improves code reusability.
+
+Since code doesn't define its own dependencies from within, you can easily pass in a different dependency that follows the same interface as the existing dependency. There is no need to duplicate or even change the code you stick the dependency into.
+
+2. It makes code more testable.
+
+When testing code, you can easily choose to pass in mocked out dependencies into your code. That lets you test a class without testing its dependencies. It also means you can tell if methods on the dependency were called using mocks from a testing framework like jest.
+
+3. It improved code maintainability.
+
+Because classes/methods don't know about their dependencies, it's easier to swap out dependencies without changing existing code. This helps keep changes isolated which improves maintainability.
 
 ## Inversion of control (IoC)
 
@@ -57,13 +71,13 @@ The inversion of control principle is a superset of dependency injection. With I
 
 ### IoC vs DI
 
-This description of IoC sounds very similar to DI. However, they aren't the exact same. DI specifically refers to the type of IoC where you pass dependencies in as parameters, rather than creating them from within a class/method. 
+This description of IoC sounds very similar to DI. However, they aren't the exact same. DI specifically refers to the type of IoC where you pass dependencies in as parameters, rather than creating them from within a class/method.
 
 Things like callback functions and the template method pattern are both considered IoC, since they involve giving some other piece of code access to execute your code. However, they do not involve DI.
 
 ## Why use a framework for DI?
 
-When I first heard about dependency injection, I learned about it in the context of a simple design principle of passing dependencies as parameters. It confused me to hear that there are frameworks to help you with this. 
+When I first heard about dependency injection, I learned about it in the context of a simple design principle of passing dependencies as parameters. It confused me to hear that there are frameworks to help you with this.
 
 ```typescript
 interface GetString {
@@ -107,6 +121,7 @@ const a = new A(b);
 
 console.log(a.getString());
 ```
+
 Take this example of dependency injection that happens across 4 different classes. Each dependency must be created and passed into the next one. As applications get more complex, these dependencies could nest even further, or one class may need many dependencies. It becomes impractical to create all the dependencies from the outside and manage passing them all into each other.
 
 In addition, say one of these dependencies was something like a database connection. In that case we would want it to be a singleton, so that everything that used it would get the same database connection instance. We would have to manage not creating duplicate instances of the dependency, even as we pass it to many things that depend on it.
@@ -170,7 +185,7 @@ container.bind(A).toSelf();
 console.log(container.get(A).getString());
 ```
 
-In this simple example, it doesn't look simpler. However, if you have many interconnected dependencies it's nice to not have to manage passing each one to each other. 
+In this simple example, it doesn't look simpler. However, if you have many interconnected dependencies it's nice to not have to manage passing each one to each other.
 
 This framework uses decorators. I had forgotten that TypeScript had decorator syntax. It also uses property decorators, which is part of an experimental feature within TypeScript. This feature you get metadata about classes, methods, and properties at runtime. This lets the framework know what dependency should be injected in what place.
 
