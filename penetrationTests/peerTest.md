@@ -148,12 +148,10 @@ In the end, I was not able to attack his system in any way (other than gaining a
 
 ## Combined Learning Summary
 
-- AWS is really secure. We didn't find a lot of exploits. Most software that is released commercially, has to be very secure. I think this shows the value of paying for commerical software, it is going to fairly secure and you can not stress over some of the details.
-- Having a really solid method for authentication is critical. From our perspective, the JWT pizza code did a fairly good at securing things. For things like authentication and data, it is a lot safer to pay someone like AWS to handle/store those things.
-- Developing with a security mindset. There are attacks I wasn't aware were possible, and simply just understanding these attacks helps me have clearer picture of how to develop good code.
-- It would've been better to have a penetration testing environment, and think of it more like testing. We both messed up our production systems when trying to do penetration testing on ourselves.
+- AWS and other popular tools are really secure. We didn't find a lot of exploits. Most software that is released commercially has to be very secure. I think this shows the value of paying for commercial software. It is going to be fairly secure, and you don't have to stress over some of the details.
+- Having a really solid method for authentication is critical. From our perspective, the JWT pizza code did fairly well at securing things. For things like authentication and data, it is a lot safer to pay someone like AWS to handle/store those things.
+- Developing with a security mindset. We both looked through the list of most common attacks. That list contained things we weren't aware was possible, and simply just understanding these attacks helps us have a clearer picture of how to develop good code. Without this knowledge, it's very easy to miss a detail and introduce a big vulnerability.
+- It would've been better to have a dedicated penetration testing environment, similar to how unit tests work in our ci pipeline. We both messed up our production systems when trying to do penetration testing on ourselves.
 - Hackers are really good at what they do. They have to understand everything at a very low level.
-- It's harder to see if the backend is broken or misconfigured since the backend doesn't have visuals. You could be accidentally returning things or allowing things and not realize it for a long time.
-- It's important to have a security mindset when programming because of how easy it is to forget something.
+- It's harder to see if the backend is broken or misconfigured since it lacks visuals. You could be accidentally returning things or allowing things and not realize it for a long time.
 - Having your code publicly available can make it easier for people to attack you because they're able to find exploits easier. You should design your system to be secure even if attackers can look at your code or your pipelines. The GitHub Actions pipeline let anyone download the artifacts which contained secrets in there. You have to think about security beyond just the code.
-- It was nice to be able to look though the list of most common attacks. There were many things we didn't even know were popular.
